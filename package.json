@@ -1,0 +1,22 @@
+{
+  "name": "cca-migrations",         
+  "version": "0.0.24",             
+  "bin": { "cca-migrations": "./bin/index.js" }, 
+  "files": [ "bin", "lib" ],        
+  "main": "bin/index.js",  
+  "type": "module",        
+  "scripts": {
+    "start": "node bin/index.js"
+  },
+  "dependencies": {
+    "pg": "^8.11.3",
+    "typeorm": "^0.3.17",
+    "commander": "^11.0.0"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "publishConfig": {
+    "access": "public"           
+  }
+}
