@@ -1,6 +1,6 @@
 {
   "name": "cca-migrations",         
-  "version": "0.0.24",             
+  "version": "0.0.32",             
   "bin": { "cca-migrations": "./bin/index.js" }, 
   "files": [ "bin", "lib" ],        
   "main": "bin/index.js",  

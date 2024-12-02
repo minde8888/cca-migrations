@@ -1,60 +1,49 @@
 #!/usr/bin/env node
 
-import { Command } from 'commander';
+import { Command } from "commander";
+import path from "path";
 import fs from 'fs';
-import { findConfigFile } from '../lib/findConfigFile.js';
-import { initializeDataSource } from '../lib/initializeDataSource.js';
-import { runMigrations } from '../lib/runMigrations.js';
+
+import { handleMigration } from "../lib/migrationsHandler.js";
+import { AppDataSource } from "../lib/database/config.js";
+import { findConfigFile } from "../lib/utils/findConfigFile.js";
 
 const program = new Command();
 
 program
-  .name('cca-migrations')
-  .description('CCA Migration tool')
-  .version('0.0.24');
+  .name("cca-migrations")
+  .description("CCA Migration tool")
+  .version("0.0.32");
 
 program
-  .command('run')
-  .description('Run database migrations')
-  .action(async () => {
+  .command("migrations <action>")
+  .description("Manage migrations (run/revert/fix/force)")
+  .action(async (action) => {
     try {
+      const migrationsDir = getMigrationsDirectory();
       const configPath = findConfigFile();
-      console.log(`Using config from: ${configPath}`);
 
-      const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
-      const AppDataSource = await initializeDataSource(config);
+      const dataSource = AppDataSource(configPath);
 
-      await runMigrations(AppDataSource, 'run');
-
-      if (AppDataSource.isInitialized) {
-        await AppDataSource.destroy();
-      }
-    } catch (err) {
-      console.error("Error:", err.message);
-      process.exit(1);
+      await handleMigration(action, dataSource, migrationsDir);
+    } catch (error) {
+      handleCommandError(error);
     }
   });
 
-program
-  .command('revert')
-  .description('Revert last migration')
-  .action(async () => {
-    try {
-      const configPath = findConfigFile();
-      console.log(`Using config from: ${configPath}`);
+const getMigrationsDirectory = () => {
+  const migrationsDir = path.resolve(process.cwd(), "lib", "migrations");
 
-      const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
-      const AppDataSource = await initializeDataSource(config);
+  if (!fs.existsSync(migrationsDir)) {
+    throw new Error(`Migrations directory not found: ${migrationsDir}`);
+  }
 
-      await runMigrations(AppDataSource, 'revert');
+  return migrationsDir;
+};
 
-      if (AppDataSource.isInitialized) {
-        await AppDataSource.destroy();
-      }
-    } catch (err) {
-      console.error("Error:", err.message);
-      process.exit(1);
-    }
-  });
+const handleCommandError = (error) => {
+  console.error("Error executing command:", error.message);
+  process.exit(1);
+};
 
 program.parse();
