@@ -4,13 +4,13 @@ import path from "path";
 
 export const AppDataSource = async (configPath) => {
   try {
-    const config = JSON.parse(fs.readFileSync(configPath, "utf8"));
-    const migrationsPath = path.join(
-      process.cwd(),
-      "lib",
-      "migrations",
-      "*{.ts,.js}"
-    );
+    let configContent = fs.readFileSync(configPath, "utf8");
+    configContent = configContent.replace(/^\uFEFF/, '');
+    
+    const config = JSON.parse(configContent);
+    
+    const migrationsPath = path.join(process.cwd(), "migrations", "*{.ts,.js}");
+    console.log(`Resolved migrations path: ${migrationsPath}`);
 
     return new DataSource({
       name: "default",
@@ -27,7 +27,9 @@ export const AppDataSource = async (configPath) => {
       migrationsTableName: "migrations",
     });
   } catch (error) {
-    console.error("Error initializing DataSource:", error.message);
+    console.error("Error initializing DataSource:");
+    console.error("Error message:", error.message);
+    console.error("Error stack:", error.stack);
     throw error;
   }
 };

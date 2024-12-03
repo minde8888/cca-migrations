@@ -10,7 +10,7 @@ export const findConfigFileRecursive = (currentPath, maxDepth = 10) => {
   try {
     const files = fs.readdirSync(currentPath);
 
-    const configFile = files.find((file) => file === "caa.config.json");
+    const configFile = files.find((file) => file === "cca.config.json");
 
     if (configFile) {
       const resolvedPath = path.join(currentPath, configFile);

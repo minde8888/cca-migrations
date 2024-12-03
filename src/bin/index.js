@@ -1,8 +1,7 @@
 #!/usr/bin/env node
-
 import { Command } from "commander";
 import path from "path";
-import fs from 'fs';
+import fs from "fs";
 
 import { handleMigration } from "../lib/migrationsHandler.js";
 import { AppDataSource } from "../lib/database/config.js";
@@ -13,11 +12,11 @@ const program = new Command();
 program
   .name("cca-migrations")
   .description("CCA Migration tool")
-  .version("0.0.32");
+  .version("0.0.50");
 
 program
-  .command("migrations <action>")
-  .description("Manage migrations (run/revert/fix/force)")
+  .argument("<action>", "Action to perform (run/revert/fix/force)")
+  .description('Run database migrations')
   .action(async (action) => {
     try {
       const migrationsDir = getMigrationsDirectory();
@@ -32,7 +31,7 @@ program
   });
 
 const getMigrationsDirectory = () => {
-  const migrationsDir = path.resolve(process.cwd(), "lib", "migrations");
+  const migrationsDir = path.resolve(process.cwd(), "migrations");
 
   if (!fs.existsSync(migrationsDir)) {
     throw new Error(`Migrations directory not found: ${migrationsDir}`);

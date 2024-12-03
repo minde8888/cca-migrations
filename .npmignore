@@ -1,0 +1,6 @@
+src/
+tests/
+webpack.config.js
+.babelrc
+.gitignore
+node_modules/
