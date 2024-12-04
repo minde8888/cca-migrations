@@ -75,4 +75,8 @@ export const down = async (queryRunner) => {
     // Your PostgreSQL table deletion/rollback code
   `);
 };
+
 ```
+## 🙋‍♂️ Support
+
+- 📧 Email: mindaugaskul@gmail.com

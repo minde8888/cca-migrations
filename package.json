@@ -1,7 +1,32 @@
 {
   "name": "cca-migrations",
-  "version": "0.0.50",
+  "version": "0.0.54",
   "type": "module",
+  "description": "A powerful PostgreSQL migration tool with support for TypeORM and NestJS",
+  "author": "Mindaugas Baltrunas <mindaugaskul@gmail.com>",
+  "license": "MIT",
+  "keywords": [
+    "postgresql",
+    "postgres",
+    "migrations",
+    "database-migrations",
+    "sql",
+    "db-migrations",
+    "typeorm",
+    "nestjs",
+    "database",
+    "schema",
+    "migration-tool",
+    "pg",
+    "database-management",
+    "version-control",
+    "database-version-control",
+    "orm",
+    "cli-tool",
+    "npx",
+    "node-postgres",
+    "postgresql-migrations"
+  ],
   "bin": {
     "cca-migrations": "src/bin/index.js",
     "cca": "src/bin/index.js"
@@ -17,6 +42,14 @@
     "pg": "^8.11.3",
     "typeorm": "^0.3.17",
     "commander": "^11.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/minde8888/cca-migrations"
+  },
+  "bugs": {
+    "url": "https://github.com/minde8888/cca-migrations/issues",
+    "email": "mindaugaskul@gmail.com"
   },
   "engines": {
     "node": ">=14.0.0"
