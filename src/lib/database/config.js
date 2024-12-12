@@ -9,7 +9,7 @@ export const AppDataSource = async (configPath) => {
     
     const config = JSON.parse(configContent);
     
-    const migrationsPath = path.join(process.cwd(), "migrations", "*{.ts,.js}");
+    const migrationsDir = path.join(process.cwd(), "migrations");
     console.log(`Resolved migrations path: ${migrationsPath}`);
 
     return new DataSource({
@@ -23,7 +23,7 @@ export const AppDataSource = async (configPath) => {
       synchronize: false,
       logging: ["query", "error"],
       entities: [],
-      migrations: [migrationsPath],
+      migrations: [`${migrationsDir}/*.ts`, `${migrationsDir}/*.js`],
       migrationsTableName: "migrations",
     });
   } catch (error) {
