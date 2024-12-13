@@ -1,5 +1,4 @@
 import fs from 'fs';
-import path from 'path';
 import { initializeConnection, cleanup } from '../database/connection.js';
 
 const getMigrationFiles = (migrationsDir) => {

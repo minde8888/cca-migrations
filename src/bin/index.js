@@ -12,7 +12,7 @@ const program = new Command();
 program
   .name("cca-migrations")
   .description("CCA Migration tool")
-  .version("0.0.54");
+  .version("0.0.95");
 
 program
   .argument("<action>", "Action to perform (run/revert/fix/force)")
@@ -20,9 +20,9 @@ program
   .action(async (action) => {
     try {
       const migrationsDir = getMigrationsDirectory();
-      const configPath = findConfigFile();
+      const configPath = await findConfigFile();
 
-      const dataSource = AppDataSource(configPath);
+      const dataSource = await AppDataSource(configPath);
 
       await handleMigration(action, dataSource, migrationsDir);
     } catch (error) {

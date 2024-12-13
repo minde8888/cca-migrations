@@ -1,19 +1,25 @@
 import { DataSource } from "typeorm";
 import fs from "fs";
 import path from "path";
+import { fileURLToPath } from "url";
 
 export const AppDataSource = async (configPath) => {
   try {
-    let configContent = fs.readFileSync(configPath, "utf8");
-    configContent = configContent.replace(/^\uFEFF/, '');
-    
+    const projectRoot = process.cwd();
+    const migrationsPath = path.join(projectRoot, "migrations");
+
+    const migrationFiles = fs.readdirSync(migrationsPath);
+    console.log("Found migration files:", migrationFiles);
+
+    if (!configPath) {
+      throw new Error("Configuration path is required");
+    }
+
+    const configContent = fs.readFileSync(configPath, "utf8");
     const config = JSON.parse(configContent);
-    
-    const migrationsDir = path.join(process.cwd(), "migrations");
-    console.log(`Resolved migrations path: ${migrationsPath}`);
 
     return new DataSource({
-      name: "default",
+      name: "postgres",
       type: config.type,
       host: config.host,
       port: config.port,
@@ -21,10 +27,13 @@ export const AppDataSource = async (configPath) => {
       password: config.password,
       database: config.database,
       synchronize: false,
-      logging: ["query", "error"],
+      logging: ["query", "error", "schema", "migration"],
+      logger: "advanced-console",
       entities: [],
-      migrations: [`${migrationsDir}/*.ts`, `${migrationsDir}/*.js`],
+      migrations: [`${migrationsPath}/*.js`],
       migrationsTableName: "migrations",
+      migrationsRun: false,
+      metadataTableName: "typeorm_metadata",
     });
   } catch (error) {
     console.error("Error initializing DataSource:");
