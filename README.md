@@ -11,20 +11,6 @@ A powerful PostgreSQL migration tool with support for TypeORM and NestJS. This t
 - Transaction support
 - Detailed logging
 
-## Installation
-
-Install the package globally:
-
-```bash
-npm install -g cca-migrations
-```
-
-Or use it directly with npx:
-
-```bash
-npx cca-migrations
-```
-
 ## Configuration
 
 Create a `db.config.json` file in your project root:
