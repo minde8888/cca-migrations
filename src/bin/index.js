@@ -12,7 +12,7 @@ const program = new Command();
 program
   .name("cca-migrations")
   .description("CCA Migration tool")
-  .version("0.0.95");
+  .version("0.1.1");
 
 program
   .argument("<action>", "Action to perform (run/revert/fix/force)")
